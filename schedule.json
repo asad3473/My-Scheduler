@@ -1,0 +1,11 @@
+[
+  { "hour": 4, "minute": 0, "action": "notify", "title": "Fajr & Spiritual Reset", "message": "Time for Namaz and Quran Tilawat. Start the day strong, Asad!" },
+  { "hour": 5, "minute": 0, "action": "notify", "title": "MERN & AI Architecture", "message": "Time for deep technical learning. Focus on advanced React, Next.js, and secure API data flows." },
+  { "hour": 8, "minute": 0, "action": "notify", "title": "Deep Work (Building)", "message": "Open VS Code. Push code for your AI integrations and advanced E-commerce portfolio projects." },
+  { "hour": 11, "minute": 0, "action": "notify", "title": "Rest & Qailulah", "message": "Step away from the screen entirely. Take a 30-45 minute nap to recharge your brain." },
+  { "hour": 13, "minute": 0, "action": "notify", "title": "Dhuhr & Fuel", "message": "Midday prayer and lunch. Disconnect from the code." },
+  { "hour": 14, "minute": 0, "action": "notify", "title": "Job Hunt & Lead Gen", "message": "Send out that 90+ ATS resume. Use LinkedIn Sales Navigator and Apollo to prospect e-commerce decision-makers." },
+  { "hour": 17, "minute": 30, "action": "notify", "title": "Physical Reset", "message": "Get up! Time for bodybuilding. Hit the gym for heavy compound movements—focus on those pulls and legs." },
+  { "hour": 19, "minute": 0, "action": "notify", "title": "Maghrib & Dinner", "message": "Evening prayer, family time, and dinner." },
+  { "hour": 21, "minute": 30, "action": "shutdown", "title": "Lights Out", "message": "System shutting down in 60 seconds. Go to sleep!" }
+]
