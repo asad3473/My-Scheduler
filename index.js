@@ -54,7 +54,7 @@ routine.forEach((task, index) => {
       headers: {
         'Title': task.title,             
         'Tags': 'hourglass,alarm_clock', 
-        'Priority': '5'
+        'Priority': '3'
       }
     }, (res) => {
       console.log(`Mobile sync successful. Status: ${res.statusCode}`);
