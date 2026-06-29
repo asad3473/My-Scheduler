@@ -1,67 +1,46 @@
-const schedule = require('node-schedule');
-const https = require('https');
-const express = require('express'); // 🔴 Added Express
-const routine = require('./schedule.json');
+const schedule = require("node-schedule");
+const https = require("https");
+const express = require("express");
+const routine = require("./schedule.json");
 
 const app = express();
-const NTFY_TOPIC = "asad_private_routine_987"; 
-
-const quotes = [
-  "Discipline equals freedom. Keep pushing.",
-  "The expert in anything was once a beginner.",
-  "Focus is the highest-paid skill in the modern world."
-];
-
-// 1. CREATE THE WEB SERVER SO RENDER DOESN'T CRASH
-app.get('/', (req, res) => {
-  res.send('Background Scheduler is LIVE and monitoring the clock.');
-});
-
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Cloud Server is awake and listening on port ${PORT}`);
+
+// Your MacroDroid Webhook URL
+const MACRO_URL =
+  "https://trigger.macrodroid.com/92969225-7ce2-4d3f-8fc5-35bb7ac85679/routineAlarm";
+
+// Home Route
+app.get("/", (req, res) => {
+  res.send("✅ Routine Scheduler is LIVE!");
 });
 
-function formatTime(hour, minute) {
-  const ampm = hour >= 12 ? 'PM' : 'AM';
-  let h = hour % 12;
-  h = h ? h : 12;
-  const m = minute < 10 ? '0' + minute : minute;
-  return `${h}:${m} ${ampm}`;
-}
 
-// 2. THE CLOUD SCHEDULER (Mobile Only)
-routine.forEach((task, index) => {
-  // Skip the local PC shutdown command if it's still in your JSON
-  if (task.action === 'shutdown') return; 
+
+// Start Express Server
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
+
+// Schedule all tasks
+routine.forEach((task) => {
+  // Skip shutdown task
+  if (task.action === "shutdown") return;
 
   const rule = new schedule.RecurrenceRule();
-  rule.tz = 'Asia/Karachi'; // 🔴 CRITICAL: Syncs cloud server to your local time
+  rule.tz = "Asia/Karachi";
   rule.hour = task.hour;
   rule.minute = task.minute;
 
   schedule.scheduleJob(rule, () => {
-    let nextTask = routine[index + 1];
-    let nextText = nextTask ? `\n\n➡️ NEXT UP: ${nextTask.title} at ${formatTime(nextTask.hour, nextTask.minute)}` : `\n\n➡️ NEXT UP: Routine Complete`;
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    const finalMessage = `${task.message}${nextText}\n\n💡 "${randomQuote}"`;
+    console.log(`⏰ ${task.title} (${task.hour}:${task.minute})`);
 
-    const req = https.request({
-      hostname: 'ntfy.sh',
-      port: 443,
-      path: `/${NTFY_TOPIC}`,
-      method: 'POST',
-      headers: {
-        'Title': task.title,             
-        'Tags': 'hourglass,alarm_clock', 
-        'Priority': '3'
-      }
-    }, (res) => {
-      console.log(`Mobile sync successful. Status: ${res.statusCode}`);
-    });
-
-    req.on('error', (error) => console.error('Network error:', error));
-    req.write(finalMessage);
-    req.end();
+    https
+      .get(MACRO_URL, (response) => {
+        console.log(`✅ Macro Triggered (${response.statusCode})`);
+      })
+      .on("error", (err) => {
+        console.error("❌ Webhook Error:", err.message);
+      });
   });
 });

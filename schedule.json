@@ -29,7 +29,7 @@
   },
   {
     "hour": 13,
-    "minute": 0,
+    "minute": 30,
     "action": "notify",
     "title": "Dhuhr & Fuel",
     "message": "Midday prayer and lunch. Disconnect from the code."
